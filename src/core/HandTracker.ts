@@ -5,6 +5,7 @@ import { HandPose } from './types';
 
 export interface TrackerOptions {
   videoElement: HTMLVideoElement;
+  inputElement?: HTMLVideoElement | HTMLCanvasElement;
   maxHands?: number;
   modelType?: 'lite' | 'full';
 }
@@ -52,9 +53,8 @@ export class HandTracker {
     if (!this.detector) {
       throw new Error('HandTracker is not initialized. Please call init() first.');
     }
-
-    const hands = await this.detector.estimateHands(this.options.videoElement);
-    
+    const input = this.options.inputElement || this.options.videoElement;
+    const hands = await this.detector.estimateHands(input);
     return hands.map(hand => ({
       keypoints: hand.keypoints.map(kp => ({
         x: kp.x,

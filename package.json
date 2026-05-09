@@ -10,7 +10,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "parcel serve demo/index.html",
+    "start": "parcel serve demo/index.html --no-source-maps",
     "build": "parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,13 +21,17 @@
   "devDependencies": {
     "@parcel/packager-ts": "^2.16.4",
     "@parcel/transformer-typescript-types": "^2.16.4",
+    "@types/three": "^0.184.1",
+    "buffer": "^6.0.3",
     "parcel": "^2.16.4",
+    "process": "^0.11.10",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "@tensorflow-models/hand-pose-detection": "^2.0.1",
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-converter": "^4.22.0",
-    "@tensorflow/tfjs-core": "^4.22.0"
+    "@tensorflow/tfjs-core": "^4.22.0",
+    "three": "^0.184.0"
   }
 }

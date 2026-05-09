@@ -4,9 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>xr-hands Demo</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #222;
+      color: white;
+      font-family: sans-serif;
+    }
+    h1 {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      margin: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
   <h1>xr-hands Demo</h1>
-  <script type="module" src="../src/index.ts"></script>
+  <script type="module" src="./app.ts"></script>
 </body>
 </html>
