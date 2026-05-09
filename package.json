@@ -19,7 +19,15 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@parcel/packager-ts": "^2.16.4",
+    "@parcel/transformer-typescript-types": "^2.16.4",
     "parcel": "^2.16.4",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@tensorflow-models/hand-pose-detection": "^2.0.1",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-core": "^4.22.0"
   }
 }
