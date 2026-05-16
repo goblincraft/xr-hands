@@ -6,6 +6,7 @@ export interface RendererOptions {
   camera: THREE.Camera;
   showDebugSkeleton?: boolean;
   showRiggedMesh?: boolean;
+  centerCamera?: boolean;
 }
 
 const CONNECTIONS = [
@@ -83,6 +84,7 @@ class HandVisualization {
   update(pose: HandPose) {
     this.group.visible = true;
     const kps = pose.keypoints3D || pose.keypoints;
+    console.log(kps);
     if (!kps) return;
 
     // Scale down from typical pixel/large coords to roughly meters for ThreeJS 
@@ -141,7 +143,7 @@ export class HandMeshRenderer {
   private handVisualizations: HandVisualization[] = [];
 
   constructor(options: RendererOptions) {
-    this.options = { showDebugSkeleton: true, showRiggedMesh: false, ...options };
+    this.options = { showDebugSkeleton: true, showRiggedMesh: false, centerCamera: true, ...options };
   }
 
   update(handPoses: HandPose[]): void {
@@ -160,6 +162,33 @@ export class HandMeshRenderer {
     // Hide extra visualizers
     for (let i = handPoses.length; i < this.handVisualizations.length; i++) {
       this.handVisualizations[i].hide();
+    }
+
+    // Center camera on the first detected hand
+    if (this.options.centerCamera && handPoses.length > 0) {
+      const kps = handPoses[0].keypoints3D || handPoses[0].keypoints;
+      if (kps && kps.length > 0) {
+        let minX = Infinity, maxX = -Infinity;
+        let minY = Infinity, maxY = -Infinity;
+        
+        for (const kp of kps) {
+          const x = kp.x || 0;
+          const y = -(kp.y || 0); // match renderer y inversion
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+
+        // Scale coordinates by 10 to match renderer
+        const scale = 10.0;
+        const centerX = ((minX + maxX) / 2) * scale;
+        const centerY = ((minY + maxY) / 2) * scale;
+        
+        // Smoothly interpolate camera position to center of hand
+        this.options.camera.position.x += (centerX - this.options.camera.position.x) * 0.1;
+        this.options.camera.position.y += (centerY - this.options.camera.position.y) * 0.1;
+      }
     }
   }
 
